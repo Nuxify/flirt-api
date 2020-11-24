@@ -1,4 +1,4 @@
-module flirt-api.exe
+module flirt-api
 
 go 1.15
 
