@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -14,6 +15,7 @@ import (
 	"github.com/go-chi/chi/middleware"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
+	"github.com/joho/godotenv"
 	"github.com/segmentio/ksuid"
 )
 
@@ -60,14 +62,21 @@ type RecordResponse struct {
 
 // initialize main function
 func main() {
-	port := ":8080"
+	// load env
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	// get port
+	port := fmt.Sprintf(":%s", os.Getenv("API_PORT"))
 	fmt.Println("Starting Server....")
 
 	// initialize mysql db handler
 	mysqlDBHandler = &MySQLDBHandler{}
 
 	// connect to database
-	err := mysqlDBHandler.Connect("127.0.0.1", "3306", "flirt", "root", "1234")
+	err = mysqlDBHandler.Connect(os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_NAME"), os.Getenv("DB_USERNAME"), os.Getenv("DB_PASSWORD"))
 	if err != nil {
 		panic(err)
 	}
@@ -121,6 +130,7 @@ func CreateRecordHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// check id if empty create new unique id
 	if len(request.ID) == 0 {
 		request.ID = generateID()
 	}
