@@ -95,7 +95,7 @@ func main() {
 	log.Fatal(http.ListenAndServe(port, router))
 }
 
-// CreateRecordHandler creates a new user resource
+// CreateRecordHandler creates a new record resource
 func CreateRecordHandler(w http.ResponseWriter, r *http.Request) {
 	var request RecordRequest
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
@@ -168,7 +168,7 @@ func CreateRecordHandler(w http.ResponseWriter, r *http.Request) {
 	response.JSON(w)
 }
 
-// GetRecordByIDHandler get user by id
+// GetRecordByIDHandler get record by id
 func GetRecordByIDHandler(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 
@@ -179,7 +179,7 @@ func GetRecordByIDHandler(w http.ResponseWriter, r *http.Request) {
 			response := HTTPResponseVM{
 				Status:  http.StatusNotFound,
 				Success: false,
-				Message: "Cannot find user.",
+				Message: "Cannot find record.",
 			}
 
 			response.JSON(w)
@@ -213,7 +213,7 @@ func GetRecordByIDHandler(w http.ResponseWriter, r *http.Request) {
 // ============================== Repositories ==============================
 // ============================== record repository ==============================
 
-// InsertDataRepository insert a user data
+// InsertDataRepository insert a record data
 func InsertDataRepository(data Record) (Record, error) {
 	stmt := fmt.Sprintf("INSERT INTO %s (id, data) VALUES (:id, :data)", recordTable)
 	_, err := mysqlDBHandler.Execute(stmt, data)
@@ -227,7 +227,7 @@ func InsertDataRepository(data Record) (Record, error) {
 	return data, nil
 }
 
-// SelectRecordByIDRepository select user data by id
+// SelectRecordByIDRepository select record data by id
 func SelectRecordByIDRepository(ID string) (Record, error) {
 	var records []Record
 
