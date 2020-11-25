@@ -14,6 +14,7 @@ import (
 	"github.com/go-chi/chi/middleware"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
+	"github.com/segmentio/ksuid"
 )
 
 // ============================== DB variables ==============================
@@ -36,13 +37,6 @@ type RecordRequest struct {
 	Data string `json:"data"`
 }
 
-// RecordResponse as type struct
-type RecordResponse struct {
-	ID        string `json:"id"`
-	Data      string `json:"data"`
-	CreatedAt int64  `json:"createdAt"`
-}
-
 var (
 	mysqlDBHandler *MySQLDBHandler
 	recordTable    string = "records"
@@ -57,6 +51,13 @@ type HTTPResponseVM struct {
 	Data      interface{} `json:"data"`
 }
 
+// RecordResponse as type struct
+type RecordResponse struct {
+	ID        string `json:"id"`
+	Data      string `json:"data"`
+	CreatedAt int64  `json:"createdAt"`
+}
+
 // initialize main function
 func main() {
 	port := ":8080"
@@ -66,7 +67,7 @@ func main() {
 	mysqlDBHandler = &MySQLDBHandler{}
 
 	// connect to database
-	err := mysqlDBHandler.Connect("127.0.0.1", "3306", "nuxify_training", "root", "1234")
+	err := mysqlDBHandler.Connect("127.0.0.1", "3306", "flirt", "root", "1234")
 	if err != nil {
 		panic(err)
 	}
@@ -86,7 +87,7 @@ func main() {
 			// routes for record
 			router.Route("/record", func(router chi.Router) {
 				router.Post("/", CreateRecordHandler)
-				// router.Get("/{id}", GetRecordByIDHandler)
+				router.Get("/{id}", GetRecordByIDHandler)
 			})
 		})
 	})
@@ -118,6 +119,10 @@ func CreateRecordHandler(w http.ResponseWriter, r *http.Request) {
 
 		response.JSON(w)
 		return
+	}
+
+	if len(request.ID) == 0 {
+		request.ID = generateID()
 	}
 
 	record := Record{
@@ -152,7 +157,49 @@ func CreateRecordHandler(w http.ResponseWriter, r *http.Request) {
 	response := &HTTPResponseVM{
 		Status:  http.StatusOK,
 		Success: true,
-		Message: "Successfully created user.",
+		Message: "Successfully created record.",
+		Data: &RecordResponse{
+			ID:        record.ID,
+			Data:      record.Data,
+			CreatedAt: time.Now().Unix(),
+		},
+	}
+
+	response.JSON(w)
+}
+
+// GetRecordByIDHandler get user by id
+func GetRecordByIDHandler(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+
+	// get record
+	record, err := SelectRecordByIDRepository(id)
+	if err != nil {
+		if err.Error() == "MISSING_RECORD" {
+			response := HTTPResponseVM{
+				Status:  http.StatusNotFound,
+				Success: false,
+				Message: "Cannot find user.",
+			}
+
+			response.JSON(w)
+			return
+		}
+
+		response := HTTPResponseVM{
+			Status:  http.StatusInternalServerError,
+			Success: false,
+			Message: err.Error(),
+		}
+
+		response.JSON(w)
+		return
+	}
+
+	response := &HTTPResponseVM{
+		Status:  http.StatusOK,
+		Success: true,
+		Message: "Successfully get record.",
 		Data: &RecordResponse{
 			ID:        record.ID,
 			Data:      record.Data,
@@ -168,8 +215,7 @@ func CreateRecordHandler(w http.ResponseWriter, r *http.Request) {
 
 // InsertDataRepository insert a user data
 func InsertDataRepository(data Record) (Record, error) {
-	var record Record
-	stmt := fmt.Sprintf("INSERT INTO %s (id, data) VALUES (:id,:data)", recordTable)
+	stmt := fmt.Sprintf("INSERT INTO %s (id, data) VALUES (:id, :data)", recordTable)
 	_, err := mysqlDBHandler.Execute(stmt, data)
 	if err != nil {
 		if strings.Contains(err.Error(), "Duplicate entry") {
@@ -178,7 +224,24 @@ func InsertDataRepository(data Record) (Record, error) {
 		return Record{}, errors.New("DATABASE_ERROR")
 	}
 
-	return record, nil
+	return data, nil
+}
+
+// SelectRecordByIDRepository select user data by id
+func SelectRecordByIDRepository(ID string) (Record, error) {
+	var records []Record
+
+	stmt := fmt.Sprintf("SELECT * FROM %s WHERE id=:id", recordTable)
+	err := mysqlDBHandler.Query(stmt, map[string]interface{}{
+		"id": ID,
+	}, &records)
+	if err != nil {
+		return Record{}, errors.New("DATABASE_ERROR")
+	} else if len(records) == 0 {
+		return Record{}, errors.New("MISSING_RECORD")
+	}
+
+	return records[0], nil
 }
 
 // ============================== MySQL Helper ==============================
@@ -243,4 +306,8 @@ func (response *HTTPResponseVM) JSON(w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.Status)
 	_ = json.NewEncoder(w).Encode(response)
+}
+
+func generateID() string {
+	return ksuid.New().String()
 }
