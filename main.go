@@ -131,7 +131,7 @@ func CreateRecordHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// insert to database
-	_, err := InsertDataRepository(record)
+	_, err := InsertRecordRepository(record)
 	if err != nil {
 		if err.Error() == "DUPLICATE_ID" {
 			response := HTTPResponseVM{
@@ -213,8 +213,8 @@ func GetRecordByIDHandler(w http.ResponseWriter, r *http.Request) {
 // ============================== Repositories ==============================
 // ============================== record repository ==============================
 
-// InsertDataRepository insert a record data
-func InsertDataRepository(data Record) (Record, error) {
+// InsertRecordRepository insert a record data
+func InsertRecordRepository(data Record) (Record, error) {
 	stmt := fmt.Sprintf("INSERT INTO %s (id, data) VALUES (:id, :data)", recordTable)
 	_, err := mysqlDBHandler.Execute(stmt, data)
 	if err != nil {
@@ -308,6 +308,7 @@ func (response *HTTPResponseVM) JSON(w http.ResponseWriter) {
 	_ = json.NewEncoder(w).Encode(response)
 }
 
+// generateID generates unique id
 func generateID() string {
 	return ksuid.New().String()
 }
