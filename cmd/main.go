@@ -17,7 +17,6 @@ import (
 
 	"github.com/joho/godotenv"
 
-	"gomora/interfaces/http/grpc"
 	"gomora/interfaces/http/rest"
 )
 
@@ -29,15 +28,6 @@ func init() {
 }
 
 func main() {
-	// grpc port
-	grpcPort, err := strconv.Atoi(os.Getenv("API_URL_GRPC_PORT"))
-	if err != nil {
-		log.Fatalf("[SERVER] Invalid port")
-	}
-	if len(fmt.Sprintf("%d", grpcPort)) == 0 {
-		grpcPort = 9090 // default grpcPort is 9090 if not set
-	}
-
 	// rest port
 	restPort, err := strconv.Atoi(os.Getenv("API_URL_REST_PORT"))
 	if err != nil {
@@ -48,8 +38,5 @@ func main() {
 	}
 
 	// serve rest server
-	go rest.ChiRouter().Serve(restPort)
-
-	// serve grpc server
-	grpc.GRPCServer().Serve(grpcPort)
+	rest.ChiRouter().Serve(restPort)
 }

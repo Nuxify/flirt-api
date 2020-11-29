@@ -18,16 +18,11 @@ import (
 
 	recordRepository "gomora/module/record/infrastructure/repository"
 	recordService "gomora/module/record/infrastructure/service"
-	recordGRPC "gomora/module/record/interfaces/http/grpc"
 	recordREST "gomora/module/record/interfaces/http/rest"
 )
 
 // ServiceContainerInterface contains the dependency injected instances
 type ServiceContainerInterface interface {
-	// gRPC
-	RegisterRecordGRPCCommandController() recordGRPC.RecordCommandController
-	RegisterRecordGRPCQueryController() recordGRPC.RecordQueryController
-
 	// REST
 	RegisterRecordRESTCommandController() recordREST.RecordCommandController
 	RegisterRecordRESTQueryController() recordREST.RecordQueryController
@@ -41,29 +36,6 @@ var (
 	containerOnce  sync.Once
 	mysqlDBHandler *mysql.MySQLDBHandler
 )
-
-//================================= gRPC ===================================
-// RegisterRecordGRPCCommandController performs dependency injection to the RegisterRecordGRPCCommandController
-func (k *kernel) RegisterRecordGRPCCommandController() recordGRPC.RecordCommandController {
-	service := k.recordCommandServiceContainer()
-
-	controller := recordGRPC.RecordCommandController{
-		RecordCommandServiceInterface: service,
-	}
-
-	return controller
-}
-
-// RegisterRecordGRPCQueryController performs dependency injection to the RegisterRecordGRPCQueryController
-func (k *kernel) RegisterRecordGRPCQueryController() recordGRPC.RecordQueryController {
-	service := k.recordQueryServiceContainer()
-
-	controller := recordGRPC.RecordQueryController{
-		RecordQueryServiceInterface: service,
-	}
-
-	return controller
-}
 
 //==========================================================================
 
