@@ -5,6 +5,8 @@ services:
     build: .
     container_name: api-flirt
     restart: unless-stopped
+    ports:
+      - 3307:3307 # db-mysql
     networks:
       - proxy-nuxify
     volumes:
