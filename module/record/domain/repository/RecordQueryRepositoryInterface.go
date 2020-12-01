@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"gomora/module/record/domain/entity"
+	"api-flirt/module/record/domain/entity"
 )
 
 // RecordQueryRepositoryInterface holds the implementable method for record query repository

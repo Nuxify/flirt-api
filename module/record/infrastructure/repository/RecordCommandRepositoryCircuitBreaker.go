@@ -3,10 +3,10 @@ package repository
 import (
 	"github.com/afex/hystrix-go/hystrix"
 
-	hystrix_config "gomora/configs/hystrix"
-	"gomora/module/record/domain/entity"
-	"gomora/module/record/domain/repository"
-	repositoryTypes "gomora/module/record/infrastructure/repository/types"
+	hystrix_config "api-flirt/configs/hystrix"
+	"api-flirt/module/record/domain/entity"
+	"api-flirt/module/record/domain/repository"
+	repositoryTypes "api-flirt/module/record/infrastructure/repository/types"
 )
 
 // RecordCommandRepositoryCircuitBreaker circuit breaker for record command repository

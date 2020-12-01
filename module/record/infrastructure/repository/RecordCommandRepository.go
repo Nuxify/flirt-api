@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"strings"
 
-	"gomora/infrastructures/database/mysql/types"
-	apiError "gomora/internal/errors"
-	"gomora/module/record/domain/entity"
-	repositoryTypes "gomora/module/record/infrastructure/repository/types"
+	"api-flirt/infrastructures/database/mysql/types"
+	apiError "api-flirt/internal/errors"
+	"api-flirt/module/record/domain/entity"
+	repositoryTypes "api-flirt/module/record/infrastructure/repository/types"
 )
 
 // RecordCommandRepository handles the record command repository logic
