@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
-	"gomora/module/record/domain/entity"
-	"gomora/module/record/domain/repository"
+	"api-flirt/module/record/domain/entity"
+	"api-flirt/module/record/domain/repository"
 )
 
 // RecordQueryService handles the record query service logic

@@ -18,9 +18,9 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 
-	"gomora/interfaces"
-	"gomora/interfaces/http/rest/middlewares/cors"
-	"gomora/interfaces/http/rest/viewmodels"
+	"api-flirt/interfaces"
+	"api-flirt/interfaces/http/rest/middlewares/cors"
+	"api-flirt/interfaces/http/rest/viewmodels"
 )
 
 // ChiRouterInterface declares methods for the chi router

@@ -17,7 +17,7 @@ import (
 
 	"github.com/joho/godotenv"
 
-	"gomora/interfaces/http/rest"
+	"api-flirt/interfaces/http/rest"
 )
 
 func init() {

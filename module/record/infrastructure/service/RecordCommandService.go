@@ -5,10 +5,10 @@ import (
 
 	"github.com/segmentio/ksuid"
 
-	"gomora/module/record/domain/entity"
-	"gomora/module/record/domain/repository"
-	repositoryTypes "gomora/module/record/infrastructure/repository/types"
-	"gomora/module/record/infrastructure/service/types"
+	"api-flirt/module/record/domain/entity"
+	"api-flirt/module/record/domain/repository"
+	repositoryTypes "api-flirt/module/record/infrastructure/repository/types"
+	"api-flirt/module/record/infrastructure/service/types"
 )
 
 // RecordCommandService handles the record command service logic
