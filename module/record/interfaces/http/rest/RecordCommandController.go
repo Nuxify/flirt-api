@@ -6,12 +6,12 @@ import (
 	"net/http"
 	"time"
 
-	"gomora/interfaces/http/rest/viewmodels"
-	"gomora/internal/errors"
-	apiError "gomora/internal/errors"
-	"gomora/module/record/application"
-	serviceTypes "gomora/module/record/infrastructure/service/types"
-	types "gomora/module/record/interfaces/http"
+	"api-flirt/interfaces/http/rest/viewmodels"
+	"api-flirt/internal/errors"
+	apiError "api-flirt/internal/errors"
+	"api-flirt/module/record/application"
+	serviceTypes "api-flirt/module/record/infrastructure/service/types"
+	types "api-flirt/module/record/interfaces/http"
 )
 
 // RecordCommandController request controller for record command

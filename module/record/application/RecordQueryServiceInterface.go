@@ -3,7 +3,7 @@ package application
 import (
 	"context"
 
-	"gomora/module/record/domain/entity"
+	"api-flirt/module/record/domain/entity"
 )
 
 // RecordQueryServiceInterface holds the implementable methods for the record query service

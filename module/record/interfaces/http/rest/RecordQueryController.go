@@ -6,10 +6,10 @@ import (
 
 	"github.com/go-chi/chi"
 
-	"gomora/interfaces/http/rest/viewmodels"
-	"gomora/internal/errors"
-	"gomora/module/record/application"
-	types "gomora/module/record/interfaces/http"
+	"api-flirt/interfaces/http/rest/viewmodels"
+	"api-flirt/internal/errors"
+	"api-flirt/module/record/application"
+	types "api-flirt/module/record/interfaces/http"
 )
 
 // RecordQueryController request controller for record query

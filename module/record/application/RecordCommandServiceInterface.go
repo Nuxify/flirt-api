@@ -3,8 +3,8 @@ package application
 import (
 	"context"
 
-	"gomora/module/record/domain/entity"
-	"gomora/module/record/infrastructure/service/types"
+	"api-flirt/module/record/domain/entity"
+	"api-flirt/module/record/infrastructure/service/types"
 )
 
 // RecordCommandServiceInterface holds the implementable methods for the record command service
