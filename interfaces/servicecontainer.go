@@ -14,11 +14,11 @@ import (
 	"os"
 	"sync"
 
-	"gomora/infrastructures/database/mysql"
+	"api-flirt/infrastructures/database/mysql"
 
-	recordRepository "gomora/module/record/infrastructure/repository"
-	recordService "gomora/module/record/infrastructure/service"
-	recordREST "gomora/module/record/interfaces/http/rest"
+	recordRepository "api-flirt/module/record/infrastructure/repository"
+	recordService "api-flirt/module/record/infrastructure/service"
+	recordREST "api-flirt/module/record/interfaces/http/rest"
 )
 
 // ServiceContainerInterface contains the dependency injected instances

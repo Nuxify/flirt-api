@@ -1,4 +1,4 @@
-module gomora
+module api-flirt
 
 go 1.14
 

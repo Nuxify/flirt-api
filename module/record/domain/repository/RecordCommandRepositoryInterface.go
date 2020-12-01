@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"gomora/module/record/domain/entity"
-	"gomora/module/record/infrastructure/repository/types"
+	"api-flirt/module/record/domain/entity"
+	"api-flirt/module/record/infrastructure/repository/types"
 )
 
 // RecordCommandRepositoryInterface holds the implementable methods for record command repository

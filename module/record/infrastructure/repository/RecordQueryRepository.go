@@ -4,9 +4,9 @@ import (
 	"errors"
 	"fmt"
 
-	"gomora/infrastructures/database/mysql/types"
-	apiError "gomora/internal/errors"
-	"gomora/module/record/domain/entity"
+	"api-flirt/infrastructures/database/mysql/types"
+	apiError "api-flirt/internal/errors"
+	"api-flirt/module/record/domain/entity"
 )
 
 // RecordQueryRepository handles the record query repository logic

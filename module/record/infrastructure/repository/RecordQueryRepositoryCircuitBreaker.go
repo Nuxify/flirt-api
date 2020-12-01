@@ -3,8 +3,8 @@ package repository
 import (
 	"github.com/afex/hystrix-go/hystrix"
 
-	"gomora/module/record/domain/entity"
-	"gomora/module/record/domain/repository"
+	"api-flirt/module/record/domain/entity"
+	"api-flirt/module/record/domain/repository"
 )
 
 // RecordQueryRepositoryCircuitBreaker holds the implementable methods for record query circuitbreaker
