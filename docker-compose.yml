@@ -6,7 +6,7 @@ services:
     container_name: api-flirt
     restart: unless-stopped
     networks:
-      - proxy-nuxify
+      - proxy
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -14,15 +14,15 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.api-flirt.entrypoints=http"
       - "traefik.http.routers.api-flirt.rule=Host(`${API_URL}`)"
-      - "traefik.http.middlewares.api-flirt-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.api-flirt.middlewares=api-flirt-https-redirect"
       - "traefik.http.routers.api-flirt-secure.entrypoints=https"
       - "traefik.http.routers.api-flirt-secure.rule=Host(`${API_URL}`)"
       - "traefik.http.routers.api-flirt-secure.tls=true"
       - "traefik.http.routers.api-flirt-secure.tls.certresolver=http"
       - "traefik.http.routers.api-flirt-secure.service=api-flirt"
       - "traefik.http.services.api-flirt.loadbalancer.server.port=${API_URL_REST_PORT}"
-      - "traefik.docker.network=proxy-nuxify"
+      - "traefik.docker.network=proxy"
+      # middleware assignment
+      - "traefik.http.routers.api-flirt.middlewares=https-redirect@file"
 networks:
-  proxy-nuxify:
+  proxy:
     external: true
