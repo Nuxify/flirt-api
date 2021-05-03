@@ -38,9 +38,10 @@ func (controller *RecordCommandController) CreateRecord(w http.ResponseWriter, r
 	// verify content must not empty
 	if len(request.Data) == 0 {
 		response := viewmodels.HTTPResponseVM{
-			Status:  http.StatusUnprocessableEntity,
-			Success: false,
-			Message: "Data input cannot be empty.",
+			Status:    http.StatusUnprocessableEntity,
+			Success:   false,
+			Message:   "Data input cannot be empty.",
+			ErrorCode: apiError.InvalidPayload,
 		}
 
 		response.JSON(w)
